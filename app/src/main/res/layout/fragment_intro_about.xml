@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#5eb4e8"
+            android:padding="5dp"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:drawableLeft="@drawable/pop_info_white"
+            android:textStyle="bold"
+            android:text="About Linda Systems"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/intro"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:text="@string/about_paragraph_one"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:id="@+id/line1"
+                android:layout_below="@+id/intro"
+                android:background="#ccc"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/line1"
+                android:layout_centerInParent="true"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:padding="5dp"
+                    android:background="@drawable/intro_about_module_btn">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="60dp"
+                        android:src="@drawable/citizen_icon_white"
+                        android:layout_alignParentLeft="true"/>
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="90dp"
+                        android:minHeight="35dp"
+                        android:id="@+id/citizenBtn"
+                        android:text="Linda Citizen"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:background="@color/green_soft"/>
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:padding="5dp"
+                    android:background="@drawable/intro_about_module_btn">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="60dp"
+                        android:src="@drawable/org_icon_white"
+                        android:layout_alignParentLeft="true"/>
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="100dp"
+                        android:minHeight="35dp"
+                        android:id="@+id/orgBtn"
+                        android:text="Linda Org"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:background="@color/green_soft"/>
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:padding="5dp"
+                    android:background="@drawable/intro_about_module_btn">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="60dp"
+                        android:src="@drawable/police_icon_white"
+                        android:layout_alignParentLeft="true"/>
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="90dp"
+                        android:minHeight="35dp"
+                        android:id="@+id/policeBtn"
+                        android:text="Linda Police"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:background="@color/green_soft"/>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+</ScrollView>

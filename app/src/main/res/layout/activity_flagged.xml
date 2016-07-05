@@ -1,0 +1,62 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context="com.example.cmigayi.projectlindacitizen.Flagged">
+
+    <include
+        layout="@layout/toolbar"
+        android:id="@+id/tool_bar"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:padding="5dp"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/black"
+        android:textSize="15dp"
+        android:background="#dddddd"
+        android:id="@+id/textChoose"
+        android:layout_below="@+id/tool_bar"
+        android:text="  Choose one option:"
+        android:drawableLeft="@drawable/flagged"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/textChoose"
+        android:orientation="vertical">
+
+        <Button
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:minHeight="30dp"
+            android:paddingLeft="5dp"
+            android:padding="7dp"
+            android:background="#949494"
+            android:textColor="@color/white"
+            android:text=" People"
+            android:drawableLeft="@drawable/people"/>
+
+        <Button
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:minHeight="30dp"
+            android:paddingLeft="2dp"
+            android:padding="7dp"
+            android:background="#949494"
+            android:textColor="@color/white"
+            android:text=" Places"
+            android:layout_marginTop="15dp"
+            android:drawableLeft="@drawable/places"/>
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

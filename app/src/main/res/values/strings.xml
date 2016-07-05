@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Project linda citizen</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="about_paragraph_one">Linda Systems is an automated security system designed to enable
+        law enforcements, citizens and private organisations to work together in information gathering.
+        It was developed with a background that Kenyan law enforcers ratio to the citizens is 1:400.
+        In addition, most securty incidents that occurred in the country could be prevented but the
+        police were always informed too late. Thus the need of a robust security intelligence gathering system.
+        The System is in the following three part:</string>
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_flagged">Flagged</string>
+    <string name="title_activity_report_incident">ReportIncident</string>
+    <string name="action_vehicle_plate">Vehicle Plate</string>
+    <string name="action_vehicle_speed">Vehicle Speed</string>
+    <string name="action_my_report">My Report</string>
+    <string name="action_my_profile">My Profile</string>
+    <string name="title_activity_vehicle_speed">VehicleSpeed</string>
+    <string name="action_logout">Log out</string>
+    <string name="title_activity_crime_report_follow_up">CrimeReportFollowUp</string>
+    <string name="followupSalutationText">Hi Cecil, your crime report has been received, the following patrol officers will be at your location briefly, kindly stay at your present location</string>
+    <string name="crime_follow_up_conclusion_text">You have reported the following crime: Robery with violence, You can cancel this report by clicking the \'False alarm\' button below</string>
+    <string name="title_activity_message">Message</string>
+    <string name="title_activity_read_message">ReadMessage</string>
+    <string name="read_message_edittext">Hi Sir/Madam,r\nWe are aware of plans by the al shabaab terrorist group to attack key social gathering places such as malls etc. Kindly be on high alert and help us keep you safe by constantly reporting any suspicious activity in your area.r\nTh IG,r\nJoseph Boinnet.</string>
+
+</resources>
