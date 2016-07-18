@@ -1,29 +1,21 @@
-package com.example.cmigayi.projectlindacitizen;
+package com.example.cmigayi.projectlindapolicepatrol;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
 import java.net.HttpURLConnection;
-import java.net.URLConnection;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,18 +28,17 @@ import javax.net.ssl.HttpsURLConnection;
  */
 public class ServerRequest {
 
-    ProgressDialog progressDialog;
-    public static final int CONNECTION_TIMEOUT = 1000*15;
-    public static final String SERVER_ADDRESS = "http://10.0.2.2/projectLinda";
-   // public static final String SERVER_ADDRESS = "http://localhost/projectLinda";
-    //public static final String SERVER_ADDRESS = "http://www.goodsclearanceclub.com/LAM_final";
+   ProgressDialog progressDialog;
+   public static final int CONNECTION_TIMEOUT = 1000*15;
+   //public static final String SERVER_ADDRESS = "http://10.0.2.2/projectLinda";
+   public static final String SERVER_ADDRESS = "http://www.goodsclearanceclub.com/projectLinda";
 
-   public void loginUser(String natID, String pwd,UrlCallBack urlCallBack){
-       new LoginUserAsync(natID,pwd,urlCallBack).execute();
+   public void loginPolice(String regNo, String pwd,UrlCallBack urlCallBack){
+       new LoginPoliceAsync(regNo,pwd,urlCallBack).execute();
    }
 
-   public void getPolicePatrols(int citizenID,UrlCallBack urlCallBack){
-       new GetPolicePatrolsAsync(citizenID,urlCallBack).execute();
+   public void getCrimeReport(int policeID,UrlCallBack urlCallBack){
+       new GetCrimeReportAsync(policeID,urlCallBack).execute();
    }
 
    public void reportCrime(int citizenID, String victim, String offender, String place,
@@ -63,32 +54,31 @@ public class ServerRequest {
        new GetTotalCitizenMessagesAsync(citizen_id,urlCallBack).execute();
    }
 
-        class LoginUserAsync extends AsyncTask<String, Void, Citizen>{
-            String requestURL = SERVER_ADDRESS+"/citizen_login.php";
-            String natID;
+   public void getCurrentPoliceLocation(int police_id,double latitude, double longitude, UrlCallBack urlCallBack){
+       new GetCurrentPoliceLocationAsync(police_id,latitude,longitude,urlCallBack).execute();
+   }
+
+        class LoginPoliceAsync extends AsyncTask<String, Void, Police>{
+            String requestURL = SERVER_ADDRESS+"/police_login.php";
+            String regNo;
             String pwd;
-            Citizen citizen;
-            ArrayList<HashMap<String,String>> citizenArraylist;
+            Police police;
+            ArrayList<HashMap<String,String>> policeArraylist;
             UrlCallBack urlCallBack;
 
-            public LoginUserAsync(String natID, String pwd, UrlCallBack urlCallBack){
-                this.natID = natID;
+            public LoginPoliceAsync(String regNo, String pwd, UrlCallBack urlCallBack){
+                this.regNo = regNo;
                 this.pwd = pwd;
-                citizenArraylist = new ArrayList<HashMap<String,String>>();
+                policeArraylist = new ArrayList<HashMap<String,String>>();
                 this.urlCallBack = urlCallBack;
             }
 
             @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-            }
-
-            @Override
-            protected Citizen doInBackground(String... params) {
+            protected Police doInBackground(String... params) {
 
                 HashMap<String, String> data = new HashMap<String,String>();
-                data.put("natID",natID);
-                data.put("password",pwd);
+                data.put("regNo","435");
+                data.put("password","123");
 
                 URL url;
                 String response = "";
@@ -114,6 +104,7 @@ public class ServerRequest {
                     if (responseCode == HttpsURLConnection.HTTP_OK) {
                         BufferedReader br=new BufferedReader(new InputStreamReader(conn.getInputStream()));
                         response = br.readLine();
+                        Log.d("response1:",response);
                     }
                     else {
                         response="Error Registering";
@@ -124,9 +115,10 @@ public class ServerRequest {
 
                 JSONObject jsonObject = null;
                 try {
+                    Log.d("response1:",response);
                     jsonObject = new JSONObject(response);
                     if(jsonObject.length() == 0){
-                        citizen = null;
+                        police = null;
                     }
                     JSONArray userContents = jsonObject.getJSONArray("contents");
                     Log.d("Array length:", Integer.toString(userContents.length()));
@@ -135,53 +127,43 @@ public class ServerRequest {
 
                         JSONObject c = userContents.getJSONObject(i);
 
-                        String citizenID = c.getString("citizen_id");
+                        String policeID = c.getString("police_id");
                         String fname = c.getString("fname");
                         String lname = c.getString("lname");
                         String surname = c.getString("surname");
                         String phone = c.getString("phone");
-                        String profession = c.getString("profession");
-                        String nationality = c.getString("nationality");
-                        String home = c.getString("home");
-                        String work = c.getString("work");
-                        String email = c.getString("email");
-                        String nationalID = c.getString("nationalID");
-                        String pwd = c.getString("password");
+                        String officerID = c.getString("officerID");
                         String dob = c.getString("dob");
+                        String rank = c.getString("rank");
+                        String dateTime = c.getString("dateTime");
 
                         Log.i("postedBy:", fname);
 
                         HashMap<String,String> hashMap = new HashMap<String,String>();
-                        hashMap.put("citizen_id",citizenID);
+                        hashMap.put("police_id",policeID);
                         hashMap.put("fname",fname);
                         hashMap.put("lname",lname);
                         hashMap.put("surname",surname);
                         hashMap.put("phone",phone);
-                        hashMap.put("profession",profession);
-                        hashMap.put("nationality",nationality);
-                        hashMap.put("home",home);
-                        hashMap.put("work",work);
-                        hashMap.put("email",email);
-                        hashMap.put("nationalID",nationalID);
-                        hashMap.put("pwd",pwd);
+                        hashMap.put("officerID",officerID);
                         hashMap.put("dob",dob);
+                        hashMap.put("rank",rank);
+                        hashMap.put("dateTime",dateTime);
 
-                        citizenArraylist.add(hashMap);
+                        policeArraylist.add(hashMap);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                citizen = new Citizen(citizenArraylist);
+                police = new Police(policeArraylist);
 
-                return  citizen;
+                return  police;
             }
 
             @Override
-            protected void onPostExecute(Citizen c) {
-                super.onPostExecute(c);
-                urlCallBack.done(c);
-                //Log.d("Result:",s);
-                // Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+            protected void onPostExecute(Police p) {
+                super.onPostExecute(p);
+                urlCallBack.done(p);
             }
         }
 
@@ -202,16 +184,16 @@ public class ServerRequest {
         return result.toString();
     }
 
-    class GetPolicePatrolsAsync extends AsyncTask<String, Void, ArrayList<HashMap<String,String>>>{
-        String requestURL = SERVER_ADDRESS+"/policePatrol.php";
-        ArrayList<HashMap<String,String>> citizenArraylist;
+    class GetCrimeReportAsync extends AsyncTask<String, Void, ArrayList<HashMap<String,String>>>{
+        String requestURL = SERVER_ADDRESS+"/getCrimeReport.php";
+        ArrayList<HashMap<String,String>> policeArraylist;
         UrlCallBack urlCallBack;
-        int citizenID;
+        int policeID;
 
-        public GetPolicePatrolsAsync(int citizenID,UrlCallBack urlCallBack){
-            citizenArraylist = new ArrayList<HashMap<String,String>>();
+        public GetCrimeReportAsync(int policeID,UrlCallBack urlCallBack){
+            policeArraylist = new ArrayList<HashMap<String,String>>();
             this.urlCallBack = urlCallBack;
-            this.citizenID = citizenID;
+            this.policeID = policeID;
         }
 
         @Override
@@ -222,7 +204,7 @@ public class ServerRequest {
         @Override
         protected ArrayList<HashMap<String,String>> doInBackground(String... params) {
             HashMap<String, String> data = new HashMap<String,String>();
-            data.put("citizen_id",Integer.toString(citizenID));
+            data.put("police_id",Integer.toString(policeID));
 
             URL url;
             String response = "";
@@ -258,10 +240,10 @@ public class ServerRequest {
 
             JSONObject jsonObject = null;
             try {
-                jsonObject = new JSONObject(response);
                 Log.d("response:", response);
+                jsonObject = new JSONObject(response);
                 if(jsonObject.length() == 0){
-                    citizenArraylist = null;
+                    policeArraylist = null;
                 }
                 JSONArray userContents = jsonObject.getJSONArray("contents");
                 Log.d("Array length:", Integer.toString(userContents.length()));
@@ -270,32 +252,42 @@ public class ServerRequest {
 
                     JSONObject c = userContents.getJSONObject(i);
 
-                    String policeID = c.getString("police_id");
+                    String crimeID = c.getString("crime_id");
+                    String crime = c.getString("crime");
                     String fname = c.getString("fname");
                     String lname = c.getString("lname");
                     String surname = c.getString("surname");
-                    String officerID = c.getString("officerID");
-                    String rank = c.getString("rank");
-                    String distance = c.getString("distance");
+                    String natID = c.getString("natID");
+                    String phone = c.getString("phone");
+                    String offender = c.getString("offender");
+                    String victim = c.getString("victim");
+                    String place = c.getString("place");
+                    String status = c.getString("status");
+                    String dateTime = c.getString("dateTime");
 
 
-                    Log.i("postedBy:", fname);
+                    Log.i("postedBy:", crime);
 
                     HashMap<String,String> hashMap = new HashMap<String,String>();
-                    hashMap.put("citizen_id",policeID);
+                    hashMap.put("crime_id",crimeID);
+                    hashMap.put("crime",crime);
                     hashMap.put("fname",fname);
                     hashMap.put("lname",lname);
                     hashMap.put("surname",surname);
-                    hashMap.put("officerID",officerID);
-                    hashMap.put("rank",rank);
-                    hashMap.put("distance",distance);
+                    hashMap.put("natID",natID);
+                    hashMap.put("phone",phone);
+                    hashMap.put("offender",offender);
+                    hashMap.put("victim",victim);
+                    hashMap.put("place",place);
+                    hashMap.put("status",status);
+                    hashMap.put("dateTime",dateTime);
 
-                    citizenArraylist.add(hashMap);
+                    policeArraylist.add(hashMap);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            return citizenArraylist;
+            return policeArraylist;
         }
 
         @Override
@@ -576,4 +568,71 @@ public class ServerRequest {
             super.onPostExecute(s);
         }
     }
+
+    class GetCurrentPoliceLocationAsync extends AsyncTask<String, Void, String>{
+        String requestURL = SERVER_ADDRESS+"/reverseGeocoding.php";
+        UrlCallBack urlCallBack;
+        int police_id;
+        double latitude,longitude;
+
+        public GetCurrentPoliceLocationAsync(int police_id,double latitude,double longitude,UrlCallBack urlCallBack){
+            this.urlCallBack = urlCallBack;
+            this.police_id = police_id;
+            this.latitude = latitude;
+            this.longitude = longitude;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            HashMap<String, String> data = new HashMap<String,String>();
+            data.put("police_id",Integer.toString(police_id));
+            data.put("latitude", String.valueOf(latitude));
+            data.put("longitude", String.valueOf(longitude));
+
+            URL url;
+            String response = "";
+            try {
+                url = new URL(requestURL);
+
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(15000);
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(getPostDataString(data));
+
+                writer.flush();
+                writer.close();
+                os.close();
+                int responseCode=conn.getResponseCode();
+                if (responseCode == HttpsURLConnection.HTTP_OK) {
+                    BufferedReader br=new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    response = br.readLine();
+                }
+                else {
+                    response="Location not registered";
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            urlCallBack.done(s);
+            super.onPostExecute(s);
+        }
+    }
+
 }
